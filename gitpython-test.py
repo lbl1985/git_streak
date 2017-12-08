@@ -89,14 +89,53 @@ def last_year_table(commit_table):
         year_table, with (date, #commits) pair for last whole year
     """
     last_year_dict = get_full_list(datetime.today() + timedelta(days=-365))
-    for item in last_year_dict.items():
+    return process_full_table(last_year_dict, commit_table)
+
+
+def process_full_table(full_dict, commit_table):
+    """
+    Feed commit_table info into full_table, and sort the full_table into time ordered
+    list of tuples
+    INPUT:
+        full_dict: dict with all consecutive dates
+        commit_table: dict with only dates, which has commits
+    OUTPUT:
+        full_commit_list: ordered (date, #commits) tuples, sorted by date.
+    """
+    for item in full_dict.items():
         date = item[0]
         if date in commit_table:
-            last_year_dict[date] = commit_table[date]
+            full_dict[date] = commit_table[date]
 
-    commit_history = sorted(last_year_dict.items(), key=lambda x: x[0])
-    print(commit_history)
+    full_commit_list = sorted(full_dict.items(), key=lambda x: x[0])
+    return full_commit_list
 
+
+def get_commit_stats(full_commit_list):
+    """
+    Get commit stats over date period within commit_table. There are following stats:
+    - Overall # of commits, date range
+    - Longest streak, date range
+    - Current streak, date range
+    INPUT:
+        full_commit_list: output from process_full_table
+    OUTPUT:
+        stats: list of tuples, tuple of (#commit as int, date range as str)
+    """
+    stats = [(0, ("", ""))] * 3
+
+    #  compute # of all commits and overall date range
+    num_commits = sum([x[1] for x in full_commit_list])
+    date_range = (full_commit_list[0][0], full_commit_list[-1][0])
+    stats[0] = (num_commits, date_range)
+
+    # compute longest streak
+    num_commit = 0
+    date_start = ""
+    date_end = ""
+    last_day_has_commit = False
+    # for day in full_commit_list:
+        
 
 if __name__ == "__main__":
     RES_TABLE = agg_repo_commits()
