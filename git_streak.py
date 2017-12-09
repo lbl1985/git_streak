@@ -167,7 +167,7 @@ def get_commit_stats(full_commit_list):
                     # current streak is the longest streak we have seen so far
                     longest_streak = current_streak
                     stats[1] = (current_streak, current_streak_start, current_streak_end)
-                
+
                 # reset temporal variables
                 current_streak = 0
                 current_streak_start = ""
