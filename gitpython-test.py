@@ -190,9 +190,6 @@ def print_stats(stats):
 
 if __name__ == "__main__":
     RES_TABLE = agg_repo_commits()
-    # RES_TABLE_ORDERED = sorted(RES_TABLE.items(), key=lambda x: x[0])
-    # print(RES_TABLE_ORDERED)
     FULL_COMMIT_TABLE = last_year_table(RES_TABLE)
-    print(FULL_COMMIT_TABLE)
     STATS = get_commit_stats(FULL_COMMIT_TABLE)
     print_stats(STATS)
