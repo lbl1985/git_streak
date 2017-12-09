@@ -41,7 +41,9 @@ def agg_repo_commits():
     """
     repo_list = [
         "c:/Experiment/powershell/pstoolbox",
-        "c:/Experiment/git_streak"
+        "c:/Experiment/git_streak",
+        "C:/source/media_intelligence_queries",
+        "C:/Experiment/CPP/cc150"
     ]
     res_table = {}
     for repo_path in repo_list:
@@ -122,23 +124,75 @@ def get_commit_stats(full_commit_list):
     OUTPUT:
         stats: list of tuples, tuple of (#commit as int, date range as str)
     """
-    stats = [(0, ("", ""))] * 3
+    # full_commit_list is list of tuples in date ascend order
+    stats = [(0, "", "")] * 3
 
     #  compute # of all commits and overall date range
     num_commits = sum([x[1] for x in full_commit_list])
-    date_range = (full_commit_list[0][0], full_commit_list[-1][0])
-    stats[0] = (num_commits, date_range)
+    stats[0] = (num_commits, full_commit_list[0][0], full_commit_list[-1][0])
 
-    # compute longest streak
-    num_commit = 0
-    date_start = ""
-    date_end = ""
+    # revert the list, to make today as the first
+    full_commit_list.reverse()
+
+    longest_streak = 0
+    current_streak = 0
     last_day_has_commit = False
-    # for day in full_commit_list:
-        
+    # in case, most recent date does not have any commit
+    # use this setting to verify current streak computation
+    current_streak_start = full_commit_list[0][1]
+    current_streak_end = full_commit_list[0][1]
+
+    for day in full_commit_list:
+        if day[1] > 0:
+            # when there is commit
+            if not last_day_has_commit:
+                # new streak starts
+                current_streak = 1
+                current_streak_end = day[0]
+                current_streak_start = day[0]
+            else:
+                # streak continues
+                current_streak += 1
+                current_streak_start = day[0]
+            last_day_has_commit = True
+        else:
+            # when there is no commit
+            if last_day_has_commit:
+                # One finishedneed, need clean up processing
+                # NOTE: Two consecutive days without commit nothing need to be changed
+                # Special case for current streak processing first
+                if current_streak_end == full_commit_list[0][0]:
+                    stats[2] = (current_streak, current_streak_start, current_streak_end)
+                if current_streak > longest_streak:
+                    # current streak is the longest streak we have seen so far
+                    longest_streak = current_streak
+                    stats[1] = (current_streak, current_streak_start, current_streak_end)
+                
+                # reset temporal variables
+                current_streak = 0
+                current_streak_start = ""
+                current_streak_end = ""
+                last_day_has_commit = False
+
+    return stats
+
+
+def print_stats(stats):
+    """
+    print out stats
+    """
+    print("Overall {0} Commits, from {1} to {2}".format(stats[0][0], stats[0][1], stats[0][2]))
+    print("Longest Streak {0} Days, from {1} to {2}".format(stats[1][0], \
+                                                                stats[1][1], stats[1][2]))
+    print("Current Streak {0} Days, from {1} to {2}".format(stats[2][0], \
+                                                                stats[2][1], stats[2][2]))
+
 
 if __name__ == "__main__":
     RES_TABLE = agg_repo_commits()
     # RES_TABLE_ORDERED = sorted(RES_TABLE.items(), key=lambda x: x[0])
     # print(RES_TABLE_ORDERED)
-    last_year_table(RES_TABLE)
+    FULL_COMMIT_TABLE = last_year_table(RES_TABLE)
+    print(FULL_COMMIT_TABLE)
+    STATS = get_commit_stats(FULL_COMMIT_TABLE)
+    print_stats(STATS)
