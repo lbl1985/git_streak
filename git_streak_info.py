@@ -9,7 +9,7 @@ Author: Binlong Li      Date: 2017-12-08
 from datetime import datetime, timedelta
 from git import Repo
 
-def get_commit_history(path, commit_table = {}):
+def get_commit_history(path, commit_table):
     """
     Get a dictionary with (date, #commits) pair for certain repo
     INPUT:
@@ -175,17 +175,6 @@ def get_commit_stats(full_commit_list):
                 last_day_has_commit = False
 
     return stats
-
-
-def print_stats(stats):
-    """
-    print out stats
-    """
-    print("Overall {0} Commits, from {1} to {2}".format(stats[0][0], stats[0][1], stats[0][2]))
-    print("Longest Streak {0} Days, from {1} to {2}".format(stats[1][0], \
-                                                                stats[1][1], stats[1][2]))
-    print("Current Streak {0} Days, from {1} to {2}".format(stats[2][0], \
-                                                                stats[2][1], stats[2][2]))
 
 
 if __name__ == "__main__":
