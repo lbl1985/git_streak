@@ -181,4 +181,3 @@ if __name__ == "__main__":
     RES_TABLE = agg_repo_commits()
     FULL_COMMIT_TABLE = last_year_table(RES_TABLE)
     STATS = get_commit_stats(FULL_COMMIT_TABLE)
-    print_stats(STATS)
