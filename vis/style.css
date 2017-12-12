@@ -1,158 +1,144 @@
-body
 /* Thanks to Gregor Adams (pixelass) for the advice */
-/* user-select: none */
+ * user-select: none */
+ol, li {
+  padding: 0;
+  margin: 0;
+  list-style: none; }
 
-ol, li
-padding: 0
-margin: 0
-list-style: none
+h1 {
+  font-size: 1.5em;
+  margin: 70px 42px; }
 
-h1
-font-size: 1.5em
-margin: 70px 42px
-
-.activity-chart, h1
-color: #525252
+.activity-chart, h1 {
+  color: #525252; }
 
 .days li,
-[data-activity='0']
-background: #eee
+[data-activity='0'] {
+  background: #eee; }
 
-.activity-chart
-width: 720px
-height: 205px
-padding-left: 110px
+.activity-chart {
+  width: 720px;
+  height: 205px;
+  padding-left: 110px; }
+
 /* center in container */
-margin: 50px 150px
-position: relative
-/*outline: solid;
+ * margin: 50px 150px
+ * position: relative */
+/*outline: solid; */
+/*** day of week heading */
+.days-of-week {
+  width: 15px;
+  position: absolute;
+  left: -40px;
+  top: 80px;
+  font-size: 0.7em; }
+  .days-of-week li {
+    list-style: none; }
+  .days-of-week li:nth-child(2) {
+    margin: 17px 0; }
 
-/*** day of week heading **/
+@-moz-document url-prefix() {
+  .days-of-week {
+    left: 23px; } }
+/*** month headings ** */
+.month ol {
+  position: absolute;
+  top: 40px;
+  left: -30px;
+  list-style: none; }
+.month li {
+  float: right;
+  margin-left: 39px;
+  font-size: 0.75em;
+  list-style: none; }
 
-.days-of-week
-width: 15px
-position: absolute
-left: -40px
-top: 80px
-font-size: 0.7em
-li:nth-child(2)
-  margin: 17px 0
+/*** draw days ** */
+.days {
+  font-size: 0.75em;
+  margin-top: 15px;
+  float: right; }
 
-@-moz-document url-prefix()
-.days-of-week
-  left: 23px
-
-
-/*** month headings ***/
-
-.month
-ol
-  position: absolute
-  top: 40px
-  left: -30px
-li
-  float: right
-  margin-left: 39px
-  font-size: 0.75em
-
-/*** draw days ***/
-
-.days
-font-size: 0.75em
-margin-top: 15px
-float: right
 /* needed to float onto screen */
-
-/* offset so days of the week line up
-*over-specified to win specificity battle */
-
-.activity-chart .offset
-&:hover
-  outline: none
-background: none
+/* offset so days of the week line up */
+/*over-specified to win specificity battle */
+.activity-chart .offset {
+  background: none; }
+  .activity-chart .offset:hover {
+    outline: none; }
 
 /* create vertical weeks */
+.week {
+  width: 108px;
+  transform: rotate(90deg); }
 
-.week
-width: 108px
-transform: rotate(90deg)
+.days li, .key li {
+  width: 12px;
+  height: 12px;
+  float: right;
+  list-style: none; }
 
-.days li, .key li
-width: 12px
-height: 12px
-float: right
 /* order days starting at the bottom right */
+.days .bold {
+  font-weight: bold; }
+.days li {
+  margin: 1.5px;
+  list-style: none; }
 
-.days
-.bold
-  font-weight: bold
-li
-  margin: 1.5px
+/*** color-code by activity level ** */
+.activity-chart [data-activity='1'] {
+  background: #d6e685; }
+.activity-chart [data-activity='2'] {
+  background: #8cc665; }
+.activity-chart [data-activity='3'] {
+  background: #44a340; }
+.activity-chart [data-activity='4'] {
+  background: #1e6823; }
 
-/*** color-code by activity level ***/
+.key {
+  position: absolute;
+  bottom: 0;
+  right: 55px; }
+  .key ul {
+    display: inline-block;
+    margin: 0;
+    padding: 0; }
+  .key li {
+    margin: 0px 2px;
+    list-style: none; }
 
-.activity-chart
-[data-activity='1']
-  background: #d6e685
-[data-activity='2']
-  background: #8cc665
-[data-activity='3']
-  background: #44a340
-[data-activity='4']
-  background: #1e6823
+/*** tooltips ** */
+.days li {
+  list-style: none; }
+  .days li .tooltip {
+    display: none; }
+  .days li:hover {
+    /*outline disabled due to firefox cross-broswer issue */
+    /*outline: 1px solid #555; */
+    position: relative;
+    z-index: 3; }
+    .days li:hover .tooltip {
+      transform: rotate(-90deg);
+      display: block;
+      position: absolute;
+      /* top & left are reversed because the calendar is rotated 90 deg */
+      top: -13px;
+      left: -85px;
+      width: 100px;
+      padding: 10px 5px;
+      text-align: center;
+      background-color: #333;
+      color: #f1f1f1; }
 
-.activity-chart, activity-1
-  background: #d6e685
-.activity-chart, activity-2
-  background: #8cc665
-.activity-chart, activity-3
-  background: #44a340
-.activity-chart, activity-4
-  background: #1e6823
+/*** little triangle on the tooltip ** */
+.tooltip:before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  bottom: -10px;
+  right: 50px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 11px solid #333; }
 
-.key
-position: absolute
-bottom: 0
-right: 55px
-ul
-  display: inline-block
-  margin: 0
-  padding: 0
-li
-  margin: 0px 2px
-
-/*** tooltips ***/
-
-.days li
-.tooltip
-  display: none
-&:hover
-  /*outline disabled due to firefox cross-broswer issue*/
-  /*outline: 1px solid #555;*/
-  position: relative
-  z-index: 3
-  .tooltip
-    transform: rotate(-90deg)
-    display: block
-    position: absolute
-    /* top & left are reversed because the calendar is rotated 90 deg */
-    top: -13px
-    left: -85px
-    width: 100px
-    padding: 10px 5px
-    text-align: center
-    background-color: #333
-    color: #f1f1f1
-
-/*** little triangle on the tooltip ***/
-
-.tooltip:before
-content: ""
-position: absolute
-width: 0
-height: 0
-bottom: -10px
-right: 50px
-border-left: 5px solid transparent
-border-right: 5px solid transparent
-border-top: 11px solid #333
+/*# sourceMappingURL=style.css.map */
