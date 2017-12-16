@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <header>
+        <link rel="stylesheet" href="style.css">
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="./moment.js"></script>
+        <script src="myscript.js"></script>
+           
+    </header>
+<body>
+    <div class="activity-chart">
+        <h1> Welcome to Git Streak !!! </h1>
+        <div id="month">
+            <ol class='month'>
+                {% for item in months %}
+                    <li>{{item}}</li>
+                {% endfor %}
+            </ol>
+        </div>
+        <div id="days" class="days">
+            <ol>
+                <div class='week'>
+                    {% for item in offsets %}
+                        <li class='offset'></li>
+                    {% endfor %}
+                    {% for item in days %}
+                        <li>
+                            <span class='tooltip' data-activity={{item.activity}}>{{item.date}}:{{item.commits}}</span>
+                        </li>
+                    {% endfor %}
+                </div>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>
