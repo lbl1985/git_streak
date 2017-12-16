@@ -3,14 +3,12 @@
 ol {
   padding: 0;
   margin: 0;
-  list-style: none; 
-}
+  list-style: none; }
 
-li{
+li {
   padding: 0;
   margin: 0;
-  list-style: none;
-}
+  list-style: none; }
 
 h1 {
   font-size: 1.5em;
@@ -26,14 +24,11 @@ h1 {
 .activity-chart {
   width: 720px;
   height: 205px;
-  padding-left: 110px; 
+  padding-left: 110px;
   margin: 50px 150px;
-  position: relative;
-}
+  position: relative; }
 
 /* center in container */
- * margin: 50px 150px
- * position: relative */
 /*outline: solid; */
 /*** day of week heading */
 .days-of-week {
@@ -42,27 +37,24 @@ h1 {
   left: -40px;
   top: 80px;
   font-size: 0.7em; }
-  .days-of-week li:nth-child(1){
-    list-style: none; 
+  .days-of-week li:nth-child(1) {
+    list-style: none;
     float: left;
     position: relative;
     left: -190px;
-    bottom: 13px;
-  }
-  .days-of-week li:nth-child(2){
-    list-style: none; 
+    bottom: 13px; }
+  .days-of-week li:nth-child(2) {
+    list-style: none;
     float: left;
     position: relative;
     left: -204px;
-    bottom: -17px;
-  }
+    bottom: -17px; }
   .days-of-week li:nth-child(3) {
-    list-style: none; 
+    list-style: none;
     float: left;
     position: relative;
     left: -216px;
-    bottom: -48px;
-  }
+    bottom: -48px; }
 
 @-moz-document url-prefix() {
   .days-of-week {

@@ -2,7 +2,12 @@ body
 /* Thanks to Gregor Adams (pixelass) for the advice */
   user-select: none
 
-ol, li
+ol
+  padding: 0
+  margin: 0
+  list-style: none
+
+li
   padding: 0
   margin: 0
   list-style: none
@@ -22,9 +27,10 @@ h1
   width: 720px
   height: 205px
   padding-left: 110px
-/* center in container */
   margin: 50px 150px
   position: relative
+/* center in container */
+
 /*outline: solid;
 
 /*** day of week heading **/
@@ -35,10 +41,24 @@ h1
   left: -40px
   top: 80px
   font-size: 0.7em
-  li
+  li:nth-child(1)
     list-style: none
+    float: left
+    position: relative
+    left: -190px
+    bottom: 13px
   li:nth-child(2)
-    margin: 17px 0
+    list-style: none
+    float: left
+    position: relative
+    left: -204px
+    bottom: -17px
+  li:nth-child(3)
+    list-style: none
+    float: left
+    position: relative
+    left: -216px
+    bottom: -48px
 
 @-moz-document url-prefix()
   .days-of-week
@@ -51,7 +71,7 @@ h1
   ol
     position: absolute
     top: 40px
-    left: -30px
+    left: -40px
     list-style: none
   li
     float: right
