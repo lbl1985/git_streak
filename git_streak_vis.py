@@ -18,7 +18,7 @@ def print_stats(stats):
                                                                 stats[2][1], stats[2][2]))
 
 def main():
-    STATS = gather_date()
+    STATS = gather_data()
     print_stats(STATS)
 
 def gather_data():
@@ -31,8 +31,8 @@ def gather_data():
 def generate_html():
     THIS_DIR = os.path.dirname(os.path.abspath(__file__))
     template_path = os.path.join(THIS_DIR, 'templates')
-    env = Environment(loader=FileSystemLoader(template_path), 
-                        trim_blocks=True)
+    env = Environment(loader=FileSystemLoader(template_path),
+                      trim_blocks=True)
     template = env.get_template('test_template.html')
 
     info = {
@@ -56,4 +56,5 @@ def generate_html():
     print(template.render(info))
 
 if __name__ == "__main__":
+    # main()
     generate_html()
