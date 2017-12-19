@@ -11,11 +11,14 @@ def print_stats(stats):
     """
     print out stats
     """
-    print("Overall {0} Commits, from {1} to {2}".format(stats[0][0], stats[0][1], stats[0][2]))
-    print("Longest Streak {0} Days, from {1} to {2}".format(stats[1][0], \
+    print("Overall        {0:>5} Commits \t\t{1} - {2}".format(stats[0][0], stats[0][1], stats[0][2]))
+    print("Longest Streak {0:>5} Days \t\t{1} - {2}".format(stats[1][0], \
                                                                 stats[1][1], stats[1][2]))
-    print("Current Streak {0} Days, from {1} to {2}".format(stats[2][0], \
+    if stats[2][0] > 0:
+        print("Current Streak {0:>5} Days \t\t{1} - {2}".format(stats[2][0], \
                                                                 stats[2][1], stats[2][2]))
+    else:
+        print("Current Streak {0:>5} Day \t\tNo commit today".format(0))
 
 def main():
     STATS = gather_data()
@@ -56,5 +59,5 @@ def generate_html():
     print(template.render(info))
 
 if __name__ == "__main__":
-    # main()
-    generate_html()
+    main()
+    # generate_html()
