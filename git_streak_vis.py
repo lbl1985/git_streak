@@ -30,6 +30,8 @@ def gather_data():
     STATS = get_commit_stats(FULL_COMMIT_TABLE)
     return STATS
 
+def orgnize_data():
+    pass
 
 def generate_html():
     THIS_DIR = os.path.dirname(os.path.abspath(__file__))
