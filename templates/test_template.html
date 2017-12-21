@@ -25,8 +25,8 @@
                         <li class='offset'></li>
                     {% endfor %}
                     {% for item in days %}
-                        <li>
-                            <span class='tooltip' data-activity={{item.activity}}>{{item.date}}:{{item.commits}}</span>
+                        <li data-activity={{item.activity}}>
+                            <span class='tooltip'>{{item.date}}:{{item.commits}}</span>
                         </li>
                     {% endfor %}
                 </div>
