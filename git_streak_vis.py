@@ -33,13 +33,19 @@ def gather_data():
 def orgnize_data():
     pass
 
-def generate_html():
+def generate_html(info):
     THIS_DIR = os.path.dirname(os.path.abspath(__file__))
     template_path = os.path.join(THIS_DIR, 'templates')
     env = Environment(loader=FileSystemLoader(template_path),
                       trim_blocks=True)
     template = env.get_template('test_template.html')
 
+    
+    html = template.render(info)
+    return html
+
+if __name__ == "__main__":
+    # main()
     info = {
         'title': 'hello world 2',
         'months': ['DEC', 'JAN', 'FEB'],
@@ -55,11 +61,25 @@ def generate_html():
                 'commits': 4,
                 "activity": 2
             }
-        ]
-
+        ],
+        'overall': {
+            "commits": 20,
+            "start_date": "2016-12-20",
+            "end_date": "2017-12-21"
+        },
+        "longest_streak": {
+            "days": "3",
+            "start_date": "2017-02-03",
+            "end_date": "2017-05-03"
+        },
+        "current_streak": {
+            "days": "3",
+            "start_date": "2017-12-18",
+            "end_date": "2017-12-20"
+        }        
     }
-    print(template.render(info))
+    html =  generate_html(info)
+    # print(html)
+    with open('./vis/genrated.html', 'wt', encoding='utf-8') as f:
+        f.write(html)
 
-if __name__ == "__main__":
-    main()
-    # generate_html()
