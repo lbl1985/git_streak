@@ -1,5 +1,5 @@
 import unittest
-from vis import orgnize_data, check_fields
+from vis import orgnize_data, check_fields, get_monthList
 
 class VisTests(unittest.TestCase):
     """ Test for functions involved in organization stage """
@@ -47,6 +47,9 @@ class VisTests(unittest.TestCase):
 
     
     def test_check_fields(self):
+        """
+        test on function check_fields 
+        """
         info = {'months':'test_month', 
             'days': [
                 {
@@ -58,6 +61,17 @@ class VisTests(unittest.TestCase):
         self.assertRaises(ValueError, check_fields, info, 'month', list)
         self.assertRaises(TypeError, check_fields, info, 'months', list)
         self.assertRaises(ValueError, check_fields, info['days'][0], 'fail', int)
+
+
+    def test_get_monthList(self):
+        """
+        test on function get_monthList
+        """
+        self.assertRaises(ValueError, get_monthList, "2017-29_20")
+        self.assertListEqual(
+            get_monthList('2016-12-23')
+            ,['DEC', 'JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG'
+            , 'SEP', 'OCT', 'NOV', 'DEC' ] )
 
 if __name__ == "__main__":
     unittest.main()

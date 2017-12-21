@@ -3,6 +3,7 @@ This module will visualize the output from info, such as overall commits,
 longest/current streak etc.
 """
 import os
+from datetime import datetime
 from jinja2 import Environment, FileSystemLoader
 from info import agg_repo_commits, last_year_table, get_commit_stats
 
@@ -21,17 +22,88 @@ def print_stats(stats):
         print("Current Streak {0:>5} Day \t\tNo commit today".format(0))
 
 def main():
-    STATS = gather_data()
+    (STATS, FULL_COMMIT_TABLE, DATA_STRUCTURE) = gather_data()
     print_stats(STATS)
+
+
+def html_main():
+    """ main function for generating html. """
+    info = {
+        'title': 'hello world 2',
+        'months': ['DEC', 'JAN', 'FEB'],
+        'offsets': ['', ''],
+        'days': [
+            {
+                "date": '2016-12-14',
+                "commits": 5,
+                "activity": 3
+            },
+            {
+                'date': '2016-12-15',
+                'commits': 4,
+                "activity": 2
+            }
+        ],
+        'overall': {
+            "commits": 20,
+            "start_date": "2016-12-20",
+            "end_date": "2017-12-21"
+        },
+        "longest_streak": {
+            "days": 2,
+            "start_date": "2017-02-03",
+            "end_date": "2017-05-03"
+        },
+        "current_streak": {
+            "days": 3,
+            "start_date": "2017-12-18",
+            "end_date": "2017-12-20"
+        }        
+    }
+    html =  generate_html(info)
+    # print(html)
+    with open('./vis/generated.html', 'wt', encoding='utf-8') as f:
+        f.write(html)
 
 def gather_data():
     RES_TABLE = agg_repo_commits()
     FULL_COMMIT_TABLE = last_year_table(RES_TABLE)
     STATS = get_commit_stats(FULL_COMMIT_TABLE)
-    return STATS
+    DATA_STRUCTURE = orgnize_data(FULL_COMMIT_TABLE, STATS)
+    return (STATS, FULL_COMMIT_TABLE, DATA_STRUCTURE)
 
-def orgnize_data(STATS):
-    pass
+
+def get_monthList(start_date):
+    """
+    based on start_date to get a list of 13 months
+    INPUT: 
+        start_date: string in format of %Y-%m-%d
+    OUTPUT:
+        months: list of strings for months
+    """
+    try:
+        d = datetime.strptime(start_date, '%Y-%m-%d')
+    except ValueError as e:
+        raise(ValueError(
+            '{0} and should both be in format of %Y-%m-%d'
+            .format(start_date)))
+
+    months = []
+    for i in range(0, 13):
+        m = (d.month + i) % 12
+        if m == 0:
+            m = 12
+        months.append(datetime(d.year, m, 1).strftime('%b').upper())
+    return months
+
+
+def orgnize_data(FULL_COMMIT_TABLE, STATS):
+    """
+    Combine FULL_COMMIT_TABLE and STATS into one dictionary, which applies with 
+    function verify_info, or check example in html_main()
+    """
+    d = {}
+    return d
 
 def check_fields(var, field, t):
     """
@@ -86,41 +158,5 @@ def generate_html(info):
     return html
 
 if __name__ == "__main__":
-    # main()
-    info = {
-        'title': 'hello world 2',
-        'months': ['DEC', 'JAN', 'FEB'],
-        'offsets': ['', ''],
-        'days': [
-            {
-                "date": '2016-12-14',
-                "commits": 5,
-                "activity": 3
-            },
-            {
-                'date': '2016-12-15',
-                'commits': 4,
-                "activity": 2
-            }
-        ],
-        'overall': {
-            "commits": 20,
-            "start_date": "2016-12-20",
-            "end_date": "2017-12-21"
-        },
-        "longest_streak": {
-            "days": 2,
-            "start_date": "2017-02-03",
-            "end_date": "2017-05-03"
-        },
-        "current_streak": {
-            "days": 3,
-            "start_date": "2017-12-18",
-            "end_date": "2017-12-20"
-        }        
-    }
-    html =  generate_html(info)
-    # print(html)
-    with open('./vis/generated.html', 'wt', encoding='utf-8') as f:
-        f.write(html)
-
+    main()
+    
