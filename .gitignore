@@ -3,3 +3,4 @@ vis/node_modules/
 vis/.sass-cache/
 *.css.map
 .vscode/
+vis/generated.html

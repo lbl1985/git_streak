@@ -80,6 +80,6 @@ if __name__ == "__main__":
     }
     html =  generate_html(info)
     # print(html)
-    with open('./vis/genrated.html', 'wt', encoding='utf-8') as f:
+    with open('./vis/generated.html', 'wt', encoding='utf-8') as f:
         f.write(html)
 
