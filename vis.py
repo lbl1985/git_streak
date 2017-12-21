@@ -1,10 +1,10 @@
 """
-This module will visualize the output from git_streak_ino, such as overall commits,
+This module will visualize the output from info, such as overall commits,
 longest/current streak etc.
 """
 import os
 from jinja2 import Environment, FileSystemLoader
-from git_streak_info import agg_repo_commits, last_year_table, get_commit_stats
+from info import agg_repo_commits, last_year_table, get_commit_stats
 
 
 def print_stats(stats):
