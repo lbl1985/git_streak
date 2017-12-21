@@ -30,17 +30,58 @@ def gather_data():
     STATS = get_commit_stats(FULL_COMMIT_TABLE)
     return STATS
 
-def orgnize_data():
+def orgnize_data(STATS):
     pass
 
+def check_fields(var, field, t):
+    """
+    utility function to check whehter certain field exists in var
+    """    
+    if field not in var:
+        raise(ValueError("field {0} is not in dict".format(field)))
+    if type(var[field]) is not t:
+        raise(TypeError("field {0} should be type {1}".format(field, t)))
+
+
+def verify_info(info):
+    """Verify info as a assistant function to generate_html"""
+    check_fields(info, 'months', list)
+    check_fields(info, 'offsets', list)
+    check_fields(info, 'days', list)
+    if len(info['days']) == 0:
+        raise ValueError('info[days] contains 0 days data')
+    check_fields(info['days'][0], 'date', str)
+    check_fields(info['days'][0], 'commits', int)
+    check_fields(info['days'][0], 'activity', int)
+    
+    check_fields(info, 'overall', dict)
+    check_fields(info['overall'], 'commits', int)
+    check_fields(info['overall'], 'start_date', str)
+    check_fields(info['overall'], 'end_date', str)
+
+    check_fields(info, 'longest_streak', dict)
+    check_fields(info['longest_streak'], 'days', int)
+    check_fields(info['longest_streak'], 'start_date', str)
+    check_fields(info['longest_streak'], 'end_date', str)
+
+    check_fields(info, 'current_streak', dict)
+    check_fields(info['current_streak'], 'days', int)
+    check_fields(info['current_streak'], 'start_date', str)
+    check_fields(info['current_streak'], 'end_date', str)
+
 def generate_html(info):
+    """
+    apply info from input variable info onto template.html by using jinga2, 
+    eventually will generate a string for the html
+    At first generate html will in charge of checking the data strcture and 
+    fiedls on info
+    """
+    verify_info(info)
     THIS_DIR = os.path.dirname(os.path.abspath(__file__))
     template_path = os.path.join(THIS_DIR, 'templates')
     env = Environment(loader=FileSystemLoader(template_path),
                       trim_blocks=True)
     template = env.get_template('test_template.html')
-
-    
     html = template.render(info)
     return html
 
@@ -68,12 +109,12 @@ if __name__ == "__main__":
             "end_date": "2017-12-21"
         },
         "longest_streak": {
-            "days": "3",
+            "days": 2,
             "start_date": "2017-02-03",
             "end_date": "2017-05-03"
         },
         "current_streak": {
-            "days": "3",
+            "days": 3,
             "start_date": "2017-12-18",
             "end_date": "2017-12-20"
         }        
