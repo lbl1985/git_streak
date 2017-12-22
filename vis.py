@@ -102,7 +102,11 @@ def orgnize_data(FULL_COMMIT_TABLE, STATS):
     Combine FULL_COMMIT_TABLE and STATS into one dictionary, which applies with 
     function verify_info, or check example in html_main()
     """
-    d = {}
+    start_date = FULL_COMMIT_TABLE[0][0]
+    months = get_monthList(start_date)
+    d = {
+        'months': get_monthList(start_date)
+    }
     return d
 
 def check_fields(var, field, t):
