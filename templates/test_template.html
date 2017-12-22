@@ -14,20 +14,22 @@
         <div id="month">
             <ol class='month'>
                 {% for item in months %}
-                    <li>{{item}}</li>
+                    <li class='month'>{{item}}</li>
                 {% endfor %}
             </ol>
         </div>
         <div id="days" class="days">
             <ol>
-                {% for item in offsets %}
-                    <li class='offset'></li>
-                {% endfor %}
-                {% for item in days %}
-                    <li data-activity={{item.activity}}>
-                        <span class='tooltip'>{{item.date}}:{{item.commits}}</span>
-                    </li>
-                {% endfor %}
+                <div class='week'>
+                    {% for item in offsets %}
+                        <li class='offset'></li>
+                    {% endfor %}
+                    {% for item in days %}
+                        <li data-activity={{item.activity}}>
+                            <span class='tooltip'>{{item.date}}:{{item.commits}}</span>
+                        </li>
+                    {% endfor %}
+                </div>
             </ol>
         </div>
         <div>

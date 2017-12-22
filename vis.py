@@ -136,8 +136,8 @@ def get_days(table):
     q = [q0, q1, q2, q3, q4]
     
     days = []
-    reversed_table = list(reversed(table))
-    for t in reversed_table:
+    # reversed_table = list(reversed(table))
+    for t in table:
         d = {
             'date': t[0],
             'commits': t[1],

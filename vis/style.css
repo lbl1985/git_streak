@@ -88,7 +88,10 @@ h1 {
 /* create vertical weeks */
 .week {
   width: 108px;
-  transform: rotate(90deg); }
+  transform: rotate(90deg); 
+  position: relative;
+  float: right;
+}
 
 .days li, .key li {
   width: 12px;
