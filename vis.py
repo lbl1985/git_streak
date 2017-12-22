@@ -2,7 +2,7 @@
 This module will visualize the output from info, such as overall commits,
 longest/current streak etc.
 """
-import os
+import os, math
 from datetime import datetime
 from jinja2 import Environment, FileSystemLoader
 from info import agg_repo_commits, last_year_table, get_commit_stats
@@ -24,6 +24,9 @@ def print_stats(stats):
 def main():
     (STATS, FULL_COMMIT_TABLE, DATA_STRUCTURE) = gather_data()
     print_stats(STATS)
+    html = generate_html(DATA_STRUCTURE)
+    with open('./vis/generated.html', 'wt', encoding='utf-8') as f:
+        f.write(html)
 
 
 def html_main():
@@ -97,15 +100,83 @@ def get_monthList(start_date):
     return months
 
 
+def get_activity(v, q):
+    """
+    get value is between in which area according to q
+    """
+    if v == 0:
+        return 0
+    if v == q[0]:
+        return 1
+    if v == q[-1]:
+        return len(q) - 1
+
+    for id, item in enumerate(q):
+        if (id < len(q) - 1):
+            if v >= item and v < q[id + 1]:
+                return id + 1
+
+def get_days(table):
+    """
+    from table, compute a list of dict, which including 3 fields:
+        date: as name
+        commits: # of commits for that day
+        activity: level of active, from 1 to 4
+    INPUT:
+        table: list of tuples, (datestr, #commits)
+    OUTPUT:
+        days: list of dictionaries, with above mentioned strucuture 
+    """
+    non_zero = [t[1] for t in table if t[1] != 0]
+    q0 = min(non_zero)
+    q4 = max(non_zero)
+    q1 = math.floor( (3 * q0 + q4) / 4)
+    q2 = math.floor( (q0 + q4) / 2)
+    q3 = math.floor( (q0 * 3 * q4) / 4)
+    q = [q0, q1, q2, q3, q4]
+    
+    days = []
+    reversed_table = list(reversed(table))
+    for t in reversed_table:
+        d = {
+            'date': t[0],
+            'commits': t[1],
+            'activity': get_activity(t[1], q)
+        }
+        days.append(d)
+
+    return days
+        
+
 def orgnize_data(FULL_COMMIT_TABLE, STATS):
     """
     Combine FULL_COMMIT_TABLE and STATS into one dictionary, which applies with 
     function verify_info, or check example in html_main()
     """
     start_date = FULL_COMMIT_TABLE[0][0]
+    start_date_obj = datetime.strptime(start_date, '%Y-%m-%d')
+
     months = get_monthList(start_date)
+    offsets = [''] * (6 - start_date_obj.weekday())
     d = {
-        'months': get_monthList(start_date)
+        'months': months,
+        'offsets': offsets,
+        'days': get_days(FULL_COMMIT_TABLE),
+        'overall': {
+            'commits': STATS[0][0],
+            'start_date': STATS[0][1],
+            'end_date': STATS[0][2]
+        },
+        'longest_streak': {
+            'days': STATS[1][0],
+            'start_date': STATS[1][1],
+            'end_date': STATS[1][2]
+        },
+        'current_streak': {
+            'days': STATS[2][0],
+            'start_date': STATS[2][1],
+            'end_date': STATS[2][2]
+        }
     }
     return d
 
