@@ -2,7 +2,7 @@
 This module will visualize the output from info, such as overall commits,
 longest/current streak etc.
 """
-import os, math
+import os, math, subprocess
 from datetime import datetime
 from jinja2 import Environment, FileSystemLoader
 from info import agg_repo_commits, last_year_table, get_commit_stats
@@ -27,7 +27,7 @@ def main():
     html = generate_html(DATA_STRUCTURE)
     with open('./vis/generated.html', 'wt', encoding='utf-8') as f:
         f.write(html)
-
+    subprocess.Popen(["powershell", "start", './vis/generated.html'])
 
 def html_main():
     """ main function for generating html. """
